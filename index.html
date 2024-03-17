@@ -1,0 +1,104 @@
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do List App</title>
+    <link rel="stylesheet" href="assets/css/general.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+    <div class="site-wrapper">
+        <div class="container">
+            <div class="get-user-name main-section text-align-center">
+                <div class="charlie">
+                    <img src="assets/images/cat-in-black-silhouette-svgrepo-com.svg">
+                </div>
+                <div class="charlie-dialogue-box p-b-dot8em">
+                    <p>Hi dude! You can call me Charlie :)</p>
+                    <p>I am your task organizer assistant.</p>
+                    <p>First of all, let me know your name.</p>
+                </div>
+                <p class="validation-error-message m-b-dot5em d-none" id="vem01">You left the input box empty.
+                    Please
+                    fill it out.</p>
+                <div class="input-user-name input-box m-0-auto m-b-3em">
+                    <input type="text" id="user-name" placeholder="Write your name here..." />
+                    <button class=" btn-send-user-name btn" onclick="getUserName()">
+                        <img src="assets/images/send-1-svgrepo-com.svg">
+                    </button>
+                </div>
+            </div>
+            <div class="task-section main-section p-left-4em p-right-4em text-align-center d-none">
+                <div class="charlie">
+                    <img src="assets/images/cat-in-black-silhouette-svgrepo-com.svg">
+                </div>
+                <div class="charlie-dialogue-box p-b-dot8em">
+                    <p>Nice to meet you <span class="color-yellow bg-color-black br-5px"
+                            id="user-name-place-holder"></span> ;)</p>
+                    <p class="p-b-dot8em">Let's start our journey here!</p>
+                    <p>As the first step, write your tasks down one by one.</p>
+                </div>
+                <p class="validation-error-message m-b-dot5em d-none" id="vem02">You left the input box empty.
+                    Please
+                    fill it out.</p>
+                <div class="input-task input-box m-0-auto m-b-3em">
+                    <input type="text" id="task-item" placeholder="Write your task here..." />
+                    <button class="btn-add-task-item btn" onclick="addTaskItem()">
+                        <img src="assets/images/round-add-button-svgrepo-com.svg">
+                    </button>
+                </div>
+                <ul id="task-list">
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script>
+        function inputValidation(inputValue) {
+            var trimedValue = inputValue.trim();
+            var trimedValueLength = trimedValue.length;
+            if (trimedValueLength > 0) {
+                return trimedValue;
+            } else {
+                return 0;
+            }
+        }
+        function getUserName() {
+            var userName = document.getElementById("user-name");
+            userName = userName.value;
+            var validation = inputValidation(userName);
+            if (validation == 0) {
+                document.getElementById("vem01").classList.remove("d-none");
+                document.getElementById("vem01").classList.add("d-inline-block");
+                return;
+            }
+            var userNamePlaceHolder = document.getElementById("user-name-place-holder");
+            userNamePlaceHolder.innerHTML = validation;
+            document.querySelector(".get-user-name").classList.add("d-none");
+            document.querySelector(".task-section").classList.remove("d-none");
+            document.querySelector(".task-section").classList.add("d-block");
+        }
+        function addTaskItem() {
+            var taskItem = document.getElementById("task-item");
+            taskItem = taskItem.value;
+            var validation = inputValidation(taskItem);
+            if (validation == 0) {
+                document.getElementById("vem02").classList.remove("d-none");
+                document.getElementById("vem02").classList.add("d-inline-block");
+                document.getElementById("task-item").focus();
+                return;
+            }
+            var taskList = document.getElementById("task-list");
+            taskList.innerHTML = taskList.innerHTML +
+                "<li class='task-item'><span class='task-item-bullet'></span><span class='task-item-text'>" +
+                validation +
+                "</span></li>";
+            document.getElementById("vem02").classList.remove("d-inline-block");
+            document.getElementById("vem02").classList.add("d-none");
+            document.getElementById("task-item").value = "";
+            document.getElementById("task-item").focus();
+        }
+    </script>
+</body>
+
+</html>
