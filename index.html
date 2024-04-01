@@ -22,9 +22,11 @@
                 <p class="validation-error-message m-b-dot5em d-none" id="vem01">You left the input box empty.
                     Please
                     fill it out.</p>
+                <p class="validation-error-message m-b-dot5em d-none" id="vem02">The input value should have at least 3
+                    characters</p>
                 <div class="input-user-name input-box m-0-auto m-b-3em">
                     <input type="text" id="user-name" placeholder="Write your name here..." />
-                    <button class=" btn-send-user-name btn" onclick="getUserName()">
+                    <button class=" btn-send-user-name button" onclick="getUserName()">
                         <img src="assets/images/send-1-svgrepo-com.svg">
                     </button>
                 </div>
@@ -39,12 +41,14 @@
                     <p class="p-b-dot8em">Let's start our journey here!</p>
                     <p>As the first step, write your tasks down one by one.</p>
                 </div>
-                <p class="validation-error-message m-b-dot5em d-none" id="vem02">You left the input box empty.
+                <p class="validation-error-message m-b-dot5em d-none" id="vem03">You left the input box empty.
                     Please
                     fill it out.</p>
+                <p class="validation-error-message m-b-dot5em d-none" id="vem04">The input value should have at least 3
+                    characters</p>
                 <div class="input-task input-box m-0-auto m-b-3em">
                     <input type="text" id="task-item" placeholder="Write your task here..." />
-                    <button class="btn-add-task-item btn" onclick="addTaskItem()">
+                    <button class="btn-add-task-item button" onclick="addTaskItem()">
                         <img src="assets/images/round-add-button-svgrepo-com.svg">
                     </button>
                 </div>
@@ -54,22 +58,50 @@
         </div>
     </div>
     <script>
+        var userNameInputEl = document.getElementById("user-name");
+        var taskItemInputEl = document.getElementById("task-item");
+        var taskList = document.getElementById("task-list");
+        userNameInputEl.focus();
+        userNameInputEl.addEventListener("keydown", function (e) {
+            if (e.key === "Enter") {
+                getUserName();
+            }
+        });
+        taskItemInputEl.addEventListener("keydown", function (e) {
+            if (e.key === "Enter") {
+                addTaskItem();
+            }
+        });
         function inputValidation(inputValue) {
             var trimedValue = inputValue.trim();
             var trimedValueLength = trimedValue.length;
-            if (trimedValueLength > 0) {
+            if (trimedValueLength >= 3) {
                 return trimedValue;
-            } else {
-                return 0;
             }
+            if (trimedValueLength > 0 && trimedValueLength < 3) {
+                return 1;
+            }
+            return 0;
         }
         function getUserName() {
-            var userName = document.getElementById("user-name");
-            userName = userName.value;
-            var validation = inputValidation(userName);
-            if (validation == 0) {
+            userNameInputValue = userNameInputEl.value;
+            var validation = inputValidation(userNameInputValue);
+            if (validation === 0) {
                 document.getElementById("vem01").classList.remove("d-none");
                 document.getElementById("vem01").classList.add("d-inline-block");
+                document.getElementById("vem02").classList.remove("d-inline-block");
+                document.getElementById("vem02").classList.add("d-none");
+                userNameInputEl.value = "";
+                userNameInputEl.focus();
+                return;
+            }
+            if (validation === 1) {
+                document.getElementById("vem01").classList.remove("d-inline-block");
+                document.getElementById("vem01").classList.add("d-none");
+                document.getElementById("vem02").classList.remove("d-none");
+                document.getElementById("vem02").classList.add("d-inline-block");
+                userNameInputEl.value = "";
+                userNameInputEl.focus();
                 return;
             }
             var userNamePlaceHolder = document.getElementById("user-name-place-holder");
@@ -77,24 +109,55 @@
             document.querySelector(".get-user-name").classList.add("d-none");
             document.querySelector(".task-section").classList.remove("d-none");
             document.querySelector(".task-section").classList.add("d-block");
+            taskItemInputEl.focus();
         }
         function addTaskItem() {
-            var taskItem = document.getElementById("task-item");
-            taskItem = taskItem.value;
-            var validation = inputValidation(taskItem);
-            if (validation == 0) {
-                document.getElementById("vem02").classList.remove("d-none");
-                document.getElementById("vem02").classList.add("d-inline-block");
-                document.getElementById("task-item").focus();
+            taskItemInputValue = taskItemInputEl.value;
+            var validation = inputValidation(taskItemInputValue);
+            if (validation === 0) {
+                document.getElementById("vem03").classList.remove("d-none");
+                document.getElementById("vem03").classList.add("d-inline-block");
+                document.getElementById("vem04").classList.remove("d-inline-block");
+                document.getElementById("vem04").classList.add("d-none");
+                taskItemInputEl.value = "";
+                taskItemInputEl.focus();
                 return;
             }
-            var taskList = document.getElementById("task-list");
-            taskList.innerHTML = taskList.innerHTML +
-                "<li class='task-item'><span class='task-item-bullet'></span><span class='task-item-text'>" +
-                validation +
-                "</span></li>";
-            document.getElementById("vem02").classList.remove("d-inline-block");
-            document.getElementById("vem02").classList.add("d-none");
+            if (validation === 1) {
+                document.getElementById("vem03").classList.remove("d-inline-block");
+                document.getElementById("vem03").classList.add("d-none");
+                document.getElementById("vem04").classList.remove("d-none");
+                document.getElementById("vem04").classList.add("d-inline-block");
+                taskItemInputEl.value = "";
+                taskItemInputEl.focus();
+                return;
+            }
+            document.getElementById("vem03").classList.remove("d-inline-block");
+            document.getElementById("vem03").classList.add("d-none");
+            document.getElementById("vem04").classList.remove("d-inline-block");
+            document.getElementById("vem04").classList.add("d-none");
+            var taskItemLiEl = document.createElement("LI");
+            taskItemLiEl.setAttribute("class", "task-item");
+            taskList.appendChild(taskItemLiEl);
+            var taskItemBulletSpanEl = document.createElement("SPAN");
+            taskItemBulletSpanEl.setAttribute("class", "task-item-bullet");
+            taskItemLiEl.appendChild(taskItemBulletSpanEl);
+            var taskItemTextSpanEl = document.createElement("SPAN");
+            taskItemTextSpanEl.setAttribute("class", "task-item-text");
+            taskItemTextSpanEl.innerHTML = validation;
+            taskItemTextSpanEl.addEventListener("click", function (e) {
+                e.target.classList.toggle("done");
+                taskItemInputEl.focus();
+            });
+            taskItemLiEl.appendChild(taskItemTextSpanEl);
+            var removeButton = document.createElement("BUTTON");
+            removeButton.innerHTML = "Remove";
+            removeButton.setAttribute("class", "btn btn-danger");
+            removeButton.addEventListener("click", function (e) {
+                e.target.parentElement.remove();
+                taskItemInputEl.focus();
+            });
+            taskItemLiEl.appendChild(removeButton);
             document.getElementById("task-item").value = "";
             document.getElementById("task-item").focus();
         }

@@ -189,7 +189,7 @@ ol {
     padding-right: .5em;
 }
 
-.input-box .btn {
+.input-box .button {
     width: 2.2em;
     padding: 5px;
     background: none;
@@ -199,11 +199,11 @@ ol {
     transition: all .3s ease-out;
 }
 
-.input-box .btn:hover {
+.input-box .button:hover {
     opacity: .8;
 }
 
-.input-box .btn img {
+.input-box .button img {
     width: 100%;
 }
 
@@ -223,4 +223,28 @@ ol {
     border-radius: 50%;
     display: inline-block;
     margin-right: .5em;
+}
+
+.task-item-text {
+    cursor: default;
+}
+
+.btn {
+    font-family: 'Madimi One';
+    font-weight: 400;
+    font-size: 1rem;
+    border: transparent;
+    border-radius: 1em;
+    padding: 0.3em;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.done {
+    text-decoration: line-through;
 }
